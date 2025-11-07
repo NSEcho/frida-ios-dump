@@ -1,0 +1,20 @@
+{
+  "name": "fid",
+  "version": "1.0.0",
+  "description": "Pull a decrypted IPA from a jailbroken device",
+  "main": "dump.ts",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NSEcho/frida-ios-dump.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NSEcho/frida-ios-dump/issues"
+  },
+  "homepage": "https://github.com/NSEcho/frida-ios-dump#readme",
+  "dependencies": {
+    "frida-objc-bridge": "^8.0.5"
+  }
+}
