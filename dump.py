@@ -228,17 +228,6 @@ def list_applications(device):
             print(line_format % (application.pid, application.name, application.identifier))
 
 
-def load_js_file(session, filename):
-    source = ''
-    with codecs.open(filename, 'r', 'utf-8') as f:
-        source = source + f.read()
-    script = session.create_script(source)
-    script.on('message', on_message)
-    script.load()
-
-    return script
-
-
 def create_dir(path):
     path = path.strip()
     path = path.rstrip('\\')
@@ -275,11 +264,19 @@ def open_target_app(device, name_or_bundleid):
 
     return session, display_name, bundle_identifier
 
+def on_diagnostics(diag):
+    print("diag", diag)
 
 def start_dump(session, ipa_name):
     print('Dumping {} to {}'.format(display_name, TEMP_DIR))
 
-    script = load_js_file(session, DUMP_JS)
+    compiler = frida.Compiler()
+    compiler.on("diagnostics", on_diagnostics)
+    bundle = compiler.build("dump.ts", project_root=os.getcwd())
+
+    script = session.create_script(bundle)
+    script.on('message', on_message)
+    script.load()
     script.post('dump')
     finished.wait()
 
